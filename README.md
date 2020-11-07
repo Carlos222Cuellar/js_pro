@@ -1,2 +1,2 @@
 # js_pro
-curos de platzi de javascript profesional
+curso de platzi de javascript profesional
