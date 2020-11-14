@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Promises</title>
+</head>
+
+<body>
+
+    <ul>
+        <li>
+            <button id="sequence">Get Top Movies in Sequence</button>
+        </li>
+        <li>
+            <button id="parallel">Get Top Movies in Parallel</button>
+        </li>
+        <li>
+            <button id="fastest">Get Fastest Top Movie</button>
+        </li>
+    </ul>
+
+    <ul id="movies">
+    </ul>
+
+    <script>
+        const apiKey = 'b89fc45c2067cbd33560270639722eae';
+
+        // function getMovie(id) {
+        //     const url = `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}`;
+        //     return fetch(url).then(reponse => response.json());
+        // }
+
+        //getMOvie nos va dar todos los detalles de la peliculas
+
+        async function getMovie(id) {
+            const url = `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}`;
+            const respuesta = await fetch(url);
+            const data = await respuesta.json();
+            return data;
+        }
+
+        // function getPopularMovies() {
+        //     const url = `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${apiKey}`;
+        //      fetch(url) //fetch nos devuelve una respuesta que resuelve una promesa
+        //         .then(response => response.json())
+        //         .then(data => data.results);
+        // }
+
+        //pasar a asyn await
+
+        async function getPopularMovies() {
+            const url = `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${apiKey}`;
+            const promesa = await fetch(url) //fetch nos devuelve una respuesta que resuelve una promesa
+                //la promesa no es muy amigable por lo tanto tenemos que convertir a un json
+            const data = await promesa.json() //nos devuelve otra promesa asi que tenemos que esperar tambien
+            return data.results //en results estan los datos de las peliculas
+
+        }
+
+        // function getTopMoviesIds(n = 3) {
+        //     return getPopularMovies().then(popularMovies =>
+        //         popularMovies.slice(0, n).map(movie => movie.id)
+        //     );
+        // }
+        async function getTopMoviesIds(n = 10) {
+            const popularMovie = await getPopularMovies() //vamos a guardar en una constante los ids de las peliculas populares //cuando se resuelva popularMovie va ser un arreglo de peliculas 
+            const ids = popularMovie.slice(0, n).map(movie => movie.id); //vamos a cortar el arreglo de o a n y con map vamos a devolver otro arreglo solo con los ids return ids; }
+            return ids
+        }
+
+        function renderMovies(movies) {
+            const movieList = document.getElementById('movies');
+            movieList.innerHTML = '';
+
+            movies.forEach(movie => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `
+            <img src="https://image.tmdb.org/t/p/w342${movie.poster_path}" />
+            <h5>${movie.title}</h5>
+            <p>Released on <em>${movie.release_date}</em></p>
+            `;
+
+                movieList.appendChild(listItem);
+            });
+        }
+
+        //funconalidad a los botones que tenemos en la vista
+
+        //obetener una lista de ids
+        async function getTopMoviesInSequence() {
+            const ids = await getTopMoviesIds();
+            const movies = [] //ir llenando la lista de peliculas con todos los detalles 
+                //vamos a usar un bucle
+            for (const id of ids) { //cuando usamos of nos va dar todos los id de el arreglo que le pasamos
+                const movie = await getMovie(id) //para cada id de pelicula quye obtengamos le vamos a pasar el id a getMovie para ir a traerla
+                movies.push(movie) //al arreglo de movies le paso la movie que obtuve
+            }
+            return movies;
+        }
+
+
+        //obtener las peliculas de manera paralela
+        async function getTopMoviesInParallel() {
+            const ids = await getTopMoviesIds();
+            const moviePromise = ids.map(id => getMovie(id)) //esos ids que traiga convertirlos en promesas para cada uno de esa ids lo voy aconvertir a una promesa de get movie
+            const movies = await Promise.all(moviePromise) //todo lo que va haber aqui no son promesas si no que son promesas ya resueltas que representan estas pelicualas basta con una promesa que da error todo dara error
+            return movies;
+        }
+
+        //ahora cual peticion nos llega primero
+        async function getFastestTopMovie() {
+            // const ids = await getTopMoviesIds();
+            // const movie = getMovie(ids[0]);
+            // return movie;
+            //asi lo hice yo del arreglo de ids que se trae agarro el que esta en la posicion 0 y ese muestro
+
+            //ahora se hara la forma como lo enseñan en el curso como una carrera
+
+            const ids = await getTopMoviesIds(); //traigo todos los ids de las peliculas
+            const moviePromise = ids.map(id => getMovie(id)); //le paso cada id a getMOvie para obtener las movies
+            const movie = await Promise.race(moviePromise) //la primer promesa que llega se muestra
+            return movie;
+        }
+
+        document.getElementById('sequence').onclick = async function() {
+            const movies = await getTopMoviesInSequence(); //cuando llamamos la funcion vamos a llamar la lista
+            renderMovies(movies); //vamos a presentar la lista
+        };
+
+        document.getElementById('parallel').onclick = async function() {
+            const movies = await getTopMoviesInParallel();
+            renderMovies(movies);
+        };
+
+        document.getElementById('fastest').onclick = async function() {
+            const movie = await getFastestTopMovie();
+            renderMovies([movie]);
+        };
+    </script>
+</body>
+
+</html>
