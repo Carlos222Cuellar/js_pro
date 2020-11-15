@@ -21,9 +21,27 @@ function mediaPlayer(config) {
 //ahora lo vamos a definir _inicializate()
 mediaPlayer.prototype._inicializate = function() {
     //esta funcion va servir para todos los plugin que tengamos definidos asi que para cada plugin
+    const player = {
+        play: () => this.play(), //play funcion que llama a play ojo es una funcion
+        pause: () => this.pause(), //pause funcion que llama a pause
+        //lo que queremos es saber o tener una propiedad que nos diga si estoy en mudo o en sonido para eso usamos un getter
+        media: this.media,
+        get muted() { //se ponde get seguido de la propiedad virtual
+            //tiene que regresar un vaLOR
+            return this.media.muted; //este this representa el objeto  que hace la llamada a nuestro objeto actual pero no hay ningun media por lo tanto lo tenemos que crear en el objeto
+        },
+        set muted(value) { //recibe un valor
+            this.media.muted = value; //si no esta muted recibe el valor en AutoPlay con true par hacerlo muted
+        }
+    };
+    //si vengo y en vez de usar this en run le paso player este ya no tendra acceso muted, unmuted, etc eso puede ser bueno porque nos da acceso a las caracteristicas que le pasamos
+
     this.plugins.forEach(plugin => {
         //tenemos que ejecutar este plugin para eso no podemos hacer solo plugin() porque aqui solo lo estamos instanciando para eso le tenemos que llamar un metodo en especifico
-        plugin.run(this); //el this se refiere a una instancia de mediaPlayer(donde ya esta el metodo play que le pasamos al plugin AutoPlay)
+        //plugin.run(this); //el this se refiere a una instancia de mediaPlayer(donde ya esta el metodo play que le pasamos al plugin AutoPlay)
+        //actualmente le pasamos this a run pero para tener un mejor control de los datos que le pasamos al plugin
+        //podemos hacer lo siguiente
+        plugin.run(player); //recibe a player
     });
 }
 
