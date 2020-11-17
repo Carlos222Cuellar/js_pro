@@ -32,7 +32,9 @@ mediaPlayer.prototype._inicializate = function() {
         },
         set muted(value) { //recibe un valor
             this.media.muted = value; //si no esta muted recibe el valor en AutoPlay con true par hacerlo muted
-        }
+        },
+
+
     };
     //si vengo y en vez de usar this en run le paso player este ya no tendra acceso muted, unmuted, etc eso puede ser bueno porque nos da acceso a las caracteristicas que le pasamos
 
@@ -54,8 +56,10 @@ mediaPlayer.prototype._inicializate = function() {
 mediaPlayer.prototype.toggleplay = function() {
     //ahora lo que quermos hacer es que cuando este en pausa le podamos dar play y viceversa
     //para eso usaremos los metodo de la API del DOM para saber si esta pausado  y para ponerle pausa
+
     if (this.media.paused) { //preguntamos si esta pausado para dar le play
         this.media.play(); //con esto le daremos play al video
+
     } else { //si no esta pausado entonces significa que esta en play entonces lo pondremos en pausa
         this.media.pause(); //se pone en pausa el video
 

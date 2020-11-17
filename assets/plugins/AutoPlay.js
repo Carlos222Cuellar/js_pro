@@ -11,6 +11,15 @@ AutoPlay.prototype.run = function(player) {
         }
         player.play(); //como no se le puede dar play a un video sin que el usuario tenga interaccion con este lo que hacemos es mutearlo antes de que entre al play
 
+        //funcion agregada por mi lo que hace el setTimeOut es esperar un segundo desde que se reproduce
+        //el video y verifica que si esta en mudo el video le ponga sonido despues de un segundo de tiempo
+        // setTimeout(() => {
+        //     if (player.muted) {
+        //         player.muted = false;
+        //     }
+
+        // }, 10);
+
     } //
 
 export default AutoPlay;
