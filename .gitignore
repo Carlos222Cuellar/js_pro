@@ -108,3 +108,7 @@ dist
 
 # TernJS port file
 .tern-port
+
+#ignorando carpetas creadas por el conversor de typescript(parcel-bundler)
+.cache
+dist
