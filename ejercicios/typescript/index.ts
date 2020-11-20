@@ -85,3 +85,37 @@ hola = {type: "hola"};//no hay problema que antes era string y ahora es un objet
 
 let someObject: object = {type: "Object"};
 //es un objeto
+
+
+//FUNCIONES
+
+function add1(a: number, b: number): number {//con esto le decimos a TS el tipo de valores que espera recibir
+
+    return a+b;//como a y b son numbers ya se sabe que va retornar un valor number pero si queremos ser mas especificos
+    //despues de el nombre de la funcion y los parentesis  escribimos dos puntos y el tipo de valor que vamos a retornar
+}
+
+const sumar = add(2,4);
+
+//Hay veces que las funciones regresan otras funciones veamos el caso
+
+//si tenemos la siguiente funcion
+function createrAdd(a:number): (number) => number {//para decirle que retorne una fucnion hacemos esto () => dentro de los parentesis le indicamos que toma un number y despues de la flecha le ponemos lo que retorna otro numero 
+    return function(b: number){//retorna una funcion
+        return b+a;//va retornar la suma del parametro que recibe la funcion que la retorna mas el que recibe la retornada
+    }
+}
+
+
+const four = createrAdd(4);
+const functionSix = four(6);
+
+//Hay veces que no todos los parametros son obligatorios algunos son opcionales
+
+function fullName(firstName: string, lastName?: string): string{ //para lograr que el lastName sea opcional le agregamos antes de los :  un signo ? lo que le dice que puede ser undefine
+return `${firstName} ${lastName}`
+}
+    
+//creo la constante que quiero pasarle la funcion pero si yo no tengo el lastName y le quiero pasar
+//solo el firsName yo quiero que no me lo tome como malo que podemos hacer 
+const carlos = fullName('carlos', )//como el segundo parametro puede ser undefine acepete que solo le pase un valor como parametro

@@ -31,14 +31,18 @@ async function precache() { //para trabajar con cache es de trabajar con una par
 
     return cache.addAll([ //lo retornamos porque es una promesa y es lo que espera waitUntil
         //son todos nuestros recursos
-        '/', //Es importante porque todos los request son diferentes en serviceworkers
-        '/index.html',
-        '/assets/index.js',
-        '/assets/mediaPlayer.js',
-        '/assets/plugins/AutoPlay.js',
-        '/assets/plugins/AutoPause.js',
-        '/assets/index.css',
-        '/assets/ejercicio.mp4',
+        // '/', //Es importante porque todos los request son diferentes en serviceworkers
+        // '/index.html',
+        // '/assets/index.js',
+        // '/assets/mediaPlayer.js',
+        // '/assets/plugins/AutoPlay.js',
+        // '/assets/plugins/AutoPause.js',
+        // '/assets/index.css',
+        // '/assets/ejercicio.mp4',
+
+        //Lo comentamos para evitar el error que daba en el navegador lo del serviceWorker ya que parcel le asigna otros nombres a los
+        //directorios dentro de la carpeta dist
+        //pero lo demas va seguir funcionando exactamente igual
     ])
 }
 
