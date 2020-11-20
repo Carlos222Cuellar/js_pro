@@ -13,9 +13,10 @@ function mediaPlayer(config) {
     //tenemos que crear nuestro plugin que le llegan a traves de este objeto de configuracion
     this.plugins = config.plugins || []; //este puglin tiene que ser capaz de funcionar incluso si no tenemos acceso a este puglin
     //como ya lo añadimos al archivo de configuracion ya podremos ser capaz de usarlo en el index.js
-
+    //  this.pausedByUser = false; NO ME SIRVIO
     //necesitamos un metodo para inicializar los plugins
     this._inicializate();
+    // this.player; //NO ME SIRVIO
 }
 
 //ahora lo vamos a definir _inicializate()
@@ -25,6 +26,7 @@ mediaPlayer.prototype._inicializate = function() {
         play: () => this.play(), //play funcion que llama a play ojo es una funcion
         pause: () => this.pause(), //pause funcion que llama a pause
         //lo que queremos es saber o tener una propiedad que nos diga si estoy en mudo o en sonido para eso usamos un getter
+        // paused: this.pausedByUser, NO ME SIRVIO
         media: this.media,
         get muted() { //se ponde get seguido de la propiedad virtual
             //tiene que regresar un vaLOR
@@ -57,13 +59,20 @@ mediaPlayer.prototype.toggleplay = function() {
     //ahora lo que quermos hacer es que cuando este en pausa le podamos dar play y viceversa
     //para eso usaremos los metodo de la API del DOM para saber si esta pausado  y para ponerle pausa
 
+
+
     if (this.media.paused) { //preguntamos si esta pausado para dar le play
+        //this.player.pause = false; NO ME SIRVIO
         this.media.play(); //con esto le daremos play al video
 
+        // console.log(this.pausedByUser)NO ME SIRVIO
     } else { //si no esta pausado entonces significa que esta en play entonces lo pondremos en pausa
+        //  this.player.paused = true; NO ME SIRVIO
         this.media.pause(); //se pone en pausa el video
 
+        // console.log(this.pausedByUser)NO ME SIRVIO
     }
+
 }
 mediaPlayer.prototype.play = function() {
     //ahora lo que quermos hacer es que cuando este en pausa le podamos dar play

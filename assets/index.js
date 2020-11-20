@@ -19,3 +19,15 @@ const player = new mediaPlayer({
 
 playPause.onclick = () => player.toggleplay(); //al metodo onclick le pasamos una funcion
 muteUnmute.onclick = () => player.muteUnmute();
+
+/**
+ * que es el service workers es un capa que vive intermedio del navegador y el internet muy parecido a las proxy
+ * permite capturar peticiones esto hace que pueda funcionar offline
+ */
+
+if ('serviceWorker' in navigator) { //le vamos a preguntar al navegador si tiene service workers
+    //si entra es porque tiene 
+    navigator.serviceWorker.register('/sw.js').catch(error => { //registrar el archivo de serviceworker
+        console.log(error.message); //si hay error capturamos el error con catch y lo mostramos en la consola
+    })
+}

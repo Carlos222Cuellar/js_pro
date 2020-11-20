@@ -12,6 +12,7 @@ class AutoPause { //va ser el encardo de ver donde esta el objeto video y ponerl
         this.estado = true; //esto es para ver si se le dio pausa automaticamente por el IntersectioObserver
         //si se le dio pausa automanticamente aunque nos cambiemos de pagina o tab no queremos que se reproduzca cuando regresemos
         //no tiene logica por defecto es true
+
     };
 
 
@@ -67,6 +68,7 @@ class AutoPause { //va ser el encardo de ver donde esta el objeto video y ponerl
         //const isVisible = entry.IntersectionRadio
 
         if (entry.intersectionRatio <= this.threshold) {
+
             this.player.pause(); //para el pause
             this.estado = false; //si el observador le pone pausa el estado cambia a false para que no se le pueda dar play aunque regresemos de otra tab
         } else if (entry.intersectionRatio >= this.threshold) {
@@ -83,17 +85,25 @@ class AutoPause { //va ser el encardo de ver donde esta el objeto video y ponerl
 
     }
 
+
+
+
+
     //esta funcion nos va permitir saber si se ha cambiado de tab para poder ponerle pausa o no
     //tenenmos que hacer lo mismo que hicimos con handleIntersection para lo del this si no nos 
     //funcionara lo del this.media.play() porque no lo encontrara por a quien se hace referencia no a al plugin
     handleVisibilityChange() {
+        //&& this.player.paused === !true
+
         if (document.visibilityState === "visible" && this.estado === true) { //si esta visible es porque estoy en la pagina si no es porque esta hidden
             //el if anterior solo va devolver true si se cumplen las dos condiciones es decir que si el observer le dio pausa no cumplira y si le di pausa yo mismo si cumplira
             //si estoy en la pestaña donde esta el video se pone play
             this.player.play();
+            // console.log('entro play')
         } else {
             //si me cambio de pestaña donde esta el video se pone pausa
-            this.player.pause()
+            this.player.pause();
+            // console.log('entro pausa')
         }
 
 
