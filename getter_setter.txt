@@ -1,4 +1,0 @@
- 
-los getter y setter son funciones que podemos usar dentro de objetos que nos permite
-tener propiedades virtuales es decir que no existen directamente en los objetos pero son 
-los getters y setter podemos obtener o dar un valor en esos objetos

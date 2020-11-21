@@ -1,0 +1,13 @@
+{
+    "name": "@carlos_cuellar/plazimediaplayer",
+    "version": "1.0.0",
+    "description": "",
+    "main": "lib/mediaPlayer.js",
+    "scripts": {
+        "build": "tsc src/**/*.ts src/plugins/*.ts src/plugins/**/*.ts  --outDir lib",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": ["media", "platzi", "plugins", "video", "ads"],
+    "author": "Carlos Mauricio Cuellar",
+    "license": "MIT"
+}
