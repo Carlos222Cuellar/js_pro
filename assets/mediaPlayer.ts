@@ -13,6 +13,7 @@
 class mediaPlayer {
     media: HTMLMediaElement; //le estamos dando el tipo de elemto que es media y este es un elemento nativo de media que ese usa tanto para video y audio element
     plugins: Array<any>; //va ser un arreglo de any
+    container: HTMLElement;
     constructor(config) {
             this.media = config.el;
             //tenemos que crear nuestro plugin que le llegan a traves de este objeto de configuracion
@@ -24,10 +25,20 @@ class mediaPlayer {
             //  this.pausedByUser = false; NO ME SIRVIO
             //necesitamos un metodo para inicializar los plugins
          //   this._inicializate(); lo usabamos con _ porque deciamos que era un elemento privado que se supone que solo en esta clase se puede llamar o invocar ahora podemos usar private
-          this.inicializate(); 
+         this.initPlayer();//vamos a inicializar para asi poder crear el contenedor de forma dinamica y que quede dentro el video
+         this.inicializate(); 
             
             // this.player; //NO ME SIRVIO
         }
+//vamos a inicializar para asi poder crear el contenedor de forma dinamica y que quede dentro el video
+        initPlayer(){
+this.container = document.createElement('div') //vamos a crear un elemento html que va ser de tipo div
+this.container.style.position = 'relative' //esto lo hacemos para poder usar la poscion absoluta en los ads para que estos se muestren en el mismo lugar siempre
+//lo queremos es meter el media dentro de este contenedor
+//lo primero es hacer a media pariente del container
+this.media.parentNode.insertBefore(this.container,this.media)//le decimos que el container va ir antes de media
+this.container.appendChild(this.media)//el container va tener adentro un hijo que va ser media      
+}
         //ahora lo vamos a definir _inicializate() ya no con el guin bajo si no private 
     private inicializate() {
             //esta funcion va servir para todos los plugin que tengamos definidos asi que para cada plugin
