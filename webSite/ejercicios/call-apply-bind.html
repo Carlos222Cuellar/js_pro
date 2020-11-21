@@ -1,0 +1,100 @@
+<html>
+
+<head>
+    <title>Call-Apply-Bind</title>
+</head>
+
+<body>
+    <a href="/ejercicios/">Go back</a>
+    <p><em>Abre la consola</em></p>
+
+    <ul>
+        <li><button class="call-to-action">Aprender</button></li>
+        <li><button class="call-to-action">Aprender mas</button></li>
+        <li><button class="call-to-action">Nunca pares de aprender</button></li>
+    </ul>
+
+
+    <script>
+        //establece 'this' usando 'call'
+        function saludar() {
+            return console.log(`hola que tal como estas ${this.name} ${this.apellido}`);
+            //esta funcion no esta en contexto de ninguna clase ni de ningun objeto pero son embargo usamos this
+        }
+        //con call vamos a establecer quien es el this
+        const carlos = {
+            name: 'carlos',
+            apellido: 'cuellar'
+        };
+        //ahora vamos a llamar a la funcion pero con call que las tiene por defecto las funciones contienen
+
+        saludar.call(carlos); //el primer argumento que recibe call es el que va ser this en este caso this va ser el objeto carlos
+
+
+        //establece 'this' usando call y pasar argumento a la funcion
+        //si quiero pasar argumentos a la funcion aparte del this tambien lo podemos hacer de la siguiente manera
+        function saludarMientrasCamino(metros, direccion) {
+            return console.log(`${this.name} camina ${metros} metros en la direccion ${direccion}`);
+        };
+        //siempre la llamo con call y como primer argumento recibira el this y despues los demas parametros 
+        saludarMientrasCamino.call(carlos, 400, 'sur');
+
+
+        //establece 'this' usando apply y pasar argumento a la funcion
+        //apply hace la misma funcion de call pero sus argumentos se los pasamos de manera diferente
+
+        //usando la misma funcion de caminar tenemos que 
+        saludarMientrasCamino.apply(carlos, [400, 'oeste']); //siempre el primer argumento que recibe es el que sera el this
+        //pero los parametros de la funcion los recibe de manera distinta se le pasan como un arreglo entre corchetes
+        //cuando usar apply y cuando call pues a veces sera mas facil usar call y aveces sera mas facil usar apply porque 
+        //digamos que la funcion recibe muchos parametros puede ser que ya los tengamos en una lista
+        //y sea mas facil pasarle la lista a apply que estar uno por uno en call
+
+        //ejemplo
+
+        const valores = [300, 'este'];
+        saludarMientrasCamino.apply(carlos, valores);
+
+
+        //establece 'this' en una nueva funcion usando bind
+
+        //bind es parte del conjunto call y apply pero a diferencia de estos dos bind no va llamar la funcion automaticamente
+        //si no que va construir una nueva funcion esa nueva funcion va tener el this que le pasamos ya integrado
+        //va estar guardado y cuando llamemos a la nueva funcion va funcionar
+
+        const mauricio = {
+            name: 'mauricio',
+            apellido: 'Rodriguez'
+        }
+
+        //saludar.bind(mauricio); //esto no se llama en el navegador de forma automatica 
+
+        //como lo que crea bind es una nueva funcion lo que vamos a hacer es asignar esa nueva funcion a una constante
+        const saludarMauricio = saludar.bind(mauricio);
+        saludarMauricio(); //la llamamos para mostrar en consola
+        //si le queremos pasar parametros lo que tenemos que hacer es lo siguiente
+        const mauriciCamina = saludarMientrasCamino.bind(mauricio);
+        mauriciCamina(1000, 'norte'); //listo solo le pasamos los argumentos que queremos
+
+        //con bind tambien podemos pasarle al bind los argumentos que queremos y este los va a recordar cuando llamemos la funcion
+        //tambien le podemos pasar algunos argumentos en bind y los demas cuando llamamos a la funcion y va fucnionar
+        //igual a esto se le llama Curring donde guardamos parcialmente algunos argumentos y lugo llenamos los demas
+
+
+
+
+        //cuando es util usar uno de estos dos metodos
+        //lo que queremos hacer es que cuando de click en un boton nos mande un alert diciendo nunca pares de aprender
+
+        //vamos a obtener la lista de botones por medio de su clase de la siguiente manera
+
+        const botones = document.getElementsByClassName('call-to-action'); //nos trae una htmlcolleccions
+        //como esta coleccion tienen el .length podemos usar call para cambiarle el this
+        //vamos a llamar foreach atarves del array usando prototype
+        Array.prototype.forEach.call(botones, boton => {
+            boton.onclick = () => {
+                alert('Nunca pares de aprender')
+            }
+        })
+    </script>
+</body>

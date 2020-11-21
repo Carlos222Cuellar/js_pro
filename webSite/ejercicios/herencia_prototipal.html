@@ -1,0 +1,66 @@
+<html>
+
+<head>
+    <title>Herencia prototipal</title>
+</head>
+
+<body>
+    <a href="/ejercicios/">Regresar</a>
+    <br>
+    <span>abre la consola</span>
+
+    <h1>
+        <code>SomeObject.prototype</code> es un objeto donde definimos el prototipo de las instancias de <code>SomeObject</code>. Es decir, las instancias de <code>SomeObject</code> van a "heredar" de
+        <code>SomeObject.prototype</code>.
+        <br />
+        <br />
+        <code>SomeObject.[[Prototype]]</code> es el prototipo de
+        <code>SomeObject</code>. Es decir, <code>SomeObject</code> "hereda" de
+        <code>SomeObject.prototype</code>.
+    </h1>
+
+
+    <script>
+        //definamos una funcion y un prototipo
+        function onePiece(personajes) {
+            this.name = personajes
+        }
+
+        onePiece.prototype.saludar = function() {
+            console.log(`Hola soy un personaje de one piece ${this.name}`);
+        }
+
+        const luffy = new onePiece('luffy');
+        luffy.saludar();
+
+        //propiedades de la instancia
+
+        //podemos hacer esto
+        console.log('hola soy: ', luffy.name);
+
+        //propiedades de la clase del objeto de donde salen las instancias 
+
+        console.log('saludar: ', luffy.saludar); //no la vamos a instanciar solo la vamos a refenciar
+
+        //propiedades heredades de mas alla vienen de objeto eje: toString
+        console.log('toString', luffy.toString) //tambien esta definido
+            //como llegamos de la instancia hasta el toString
+            //para eso esta el metodo hasOwnProperty que viene de Object esto sirve para saber si 
+            //algo viene del objeto o lo toma prestado de la herencia 
+
+        console.log('luffy.hasOwnProperty(name)', luffy.hasOwnProperty('name')) //nos devuelve true porque si viene del objeto
+        console.log('luffy.hasOwnProperty(saludar)', luffy.hasOwnProperty('saludar')) //nos va devolver false por que lo toma prestado de la herencia
+
+        /*
+        si inspeccionamos al objeto luffy en consola podemos ver que tiene la propiedad name en el 
+        pero si abrimos el objeto vemos que hay algo que dice proto si lo inspeccionamos vamos a ver que esta
+        saludar es decir que aqui caen todos los metodos de saludar
+        pero tambien hay otro proto que viene desde object y alli estan el toString 
+        que es proto el como se muestra en el navegador o como lo muestra node puede variar ya que la forma correcta de usar
+        __proto__ es Object.getPrototypeOf(luffy) lo cual nos arroja lo mismo que luffy.__proto__
+       
+        */
+    </script>
+</body>
+
+</html>
