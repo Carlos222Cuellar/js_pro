@@ -119,3 +119,30 @@ return `${firstName} ${lastName}`
 //creo la constante que quiero pasarle la funcion pero si yo no tengo el lastName y le quiero pasar
 //solo el firsName yo quiero que no me lo tome como malo que podemos hacer 
 const carlos = fullName('carlos', )//como el segundo parametro puede ser undefine acepete que solo le pase un valor como parametro
+
+//las interfaces nos permiten declarar la forma que tiene un objeto esto puede ser util porque nos ayuda en el autocompletado
+
+interface rectangulo {
+    ancho: number,
+    alto: number,
+}
+
+//luego lo invocamos
+
+let rect: rectangulo = {
+    ancho: 4,
+    alto: 6
+}
+
+//por ejemplo si queremos el area y que reciba a un rectangulo lo podemos hacer de la siguiente manera
+
+function area(r: rectangulo): number {
+    return r.alto * r.ancho
+}
+
+//luego le pasamos el rectangulo a area
+
+let resultado = area(rect);//listo
+
+
+

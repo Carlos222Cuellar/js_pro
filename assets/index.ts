@@ -1,14 +1,19 @@
 //tenemos que importar el archivo que queremos usar
 
-import mediaPlayer from './mediaPlayer.js'
-import AutoPlay from './plugins/AutoPlay.js' // vamos a ser capaz de hacer funcionar el autoplay sin que nos de error en el navegador
-import AutoPause from './plugins/AutoPause.js' //vamos a traer la clase de autopause para saber en que posicion de la pantalla esta mi video y asi poder darle pausa automaticamente
+import mediaPlayer from './mediaPlayer'
+import AutoPlay from './plugins/AutoPlay' // vamos a ser capaz de hacer funcionar el autoplay sin que nos de error en el navegador
+import AutoPause from './plugins/AutoPause' //vamos a traer la clase de autopause para saber en que posicion de la pantalla esta mi video y asi poder darle pausa automaticamente
 //este como es un nuevo plugin se lo pasamos al arreglo de plugin en la instancia de mediaPlayer
 
 
 const video = document.querySelector('video'); //agarrar el elemento video para poder manipularlo
-const playPause = document.querySelector('#playPause'); //agarrar el elemento button playPause para poder manipularlo
-const muteUnmute = document.querySelector('#muteUnmute'); //agarrar el boton para poder manipularlo y hacer que el usuario lo pueda escuchar el video
+const playPause: HTMLElement = document.querySelector('#playPause'); //agarrar el elemento button playPause para poder manipularlo
+const muteUnmute: HTMLElement = document.querySelector('#muteUnmute'); //agarrar el boton para poder manipularlo y hacer que el usuario lo pueda escuchar el video
+
+
+//a los botones de playPause y muteUnmute TS no esta seguro que son por eso mas abao no reconoce lo onclick es 
+//de indicarle que son un elemento de html
+
 
 //instaciamos la clase
 const player = new mediaPlayer({

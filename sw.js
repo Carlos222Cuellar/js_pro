@@ -43,7 +43,7 @@ async function precache() { //para trabajar con cache es de trabajar con una par
         //Lo comentamos para evitar el error que daba en el navegador lo del serviceWorker ya que parcel le asigna otros nombres a los
         //directorios dentro de la carpeta dist
         //pero lo demas va seguir funcionando exactamente igual
-    ])
+    ]);
 }
 
 
@@ -52,7 +52,7 @@ async function cachedResponse(request) {
     //hay que verificar si en el cache esta la respuesta a la peticion
 
     const response = await cache.match(request) //le estamos preguntando al cache si ya tiene una copia que le responde al esta peticion si no si es no nos devulve undefine
-    return response || fetch() // si no ponemos el fecth si no la encuentra la peticion en el cache entonces estariamos devolviendo undefine por eso ponemos lo del fecth para que vaya a la red a darle respuesta a la peticion que hicimos
+    return response || fetch(request) // si no ponemos el fecth si no la encuentra la peticion en el cache entonces estariamos devolviendo undefine por eso ponemos lo del fecth para que vaya a la red a darle respuesta a la peticion que hicimos
 
 }
 

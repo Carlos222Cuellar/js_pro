@@ -1,9 +1,17 @@
+import mediaPlayer from "../mediaPlayer";
+
 class AutoPause { //va ser el encardo de ver donde esta el objeto video y ponerle pausa
 
+//como ts no reconoce algunas cosas como threshold lo declaramos como un number
+private threshold:number;//para que cuando alguien haga uso de AutoPause pueda usar esta variable le ponemos private variable privada 
+private estado:boolean;
+//tenemos otro error con player hacemos lo mismo
+player: mediaPlayer;//tenemos que importar mediaPlayer pero tenemos que resfactorizar mediaPlayer porque typescript no lo va reconocer porque no usamos la palabra class 
 
-    //vamos a crear un constructor para poder usar el threshold en cualquier parte del codigo usando la referencia this
+//vamos a crear un constructor para poder usar el threshold en cualquier parte del codigo usando la referencia this
+   
     constructor() {
-        this.threshold = 0.25;
+        this.threshold  = 0.25;
         this.handlerIntersection = this.handlerIntersection.bind(this)
             //esto lo usamos porque siempre hacemos referencia a this se va referir a base de la funcion que lo esta llamando
             //por eso no lo podemos usar bind para establecer el this permanentemente this va ser permanente a la instancia de este objeto
@@ -53,9 +61,11 @@ class AutoPause { //va ser el encardo de ver donde esta el objeto video y ponerl
      * le digo que entry va ser el unico que ssta en la lista
      */
 
-    handlerIntersection(entries) {
+     //ESTAS DOS FUNCIONES LAS VAMOS A DECLARAR PRIVATE PORQUE NADIE TIENE NECESIDAD DE LLAMARLAS EXCEPTO LA MISMA CLASE
+
+    private handlerIntersection(entries: IntersectionObserverEntry[]) {//le decimos que es un arreglo de IntersectionObserverEntry para poder usar todos sus metodos
         const entry = entries[0]; //el unico entry que esta en la lista es el que estamos observando
-        console.log(entry) //si lo vemos en el navegador vemos que nos da un entry desde el comienzo porque de una vez estamos 
+        //console.log(entry) //si lo vemos en el navegador vemos que nos da un entry desde el comienzo porque de una vez estamos 
             //visualizando el elemento en si pero si empezamos a bajar con el scroll
             //cuando sobrepase el 25% del elemento nos dara un mensaje donde nos avisa 
             //si inspeccionamos el mensaje vamos a ver la parte que nos interesa que es 
@@ -92,7 +102,7 @@ class AutoPause { //va ser el encardo de ver donde esta el objeto video y ponerl
     //esta funcion nos va permitir saber si se ha cambiado de tab para poder ponerle pausa o no
     //tenenmos que hacer lo mismo que hicimos con handleIntersection para lo del this si no nos 
     //funcionara lo del this.media.play() porque no lo encontrara por a quien se hace referencia no a al plugin
-    handleVisibilityChange() {
+    private handleVisibilityChange() {
         //&& this.player.paused === !true
 
         if (document.visibilityState === "visible" && this.estado === true) { //si esta visible es porque estoy en la pagina si no es porque esta hidden
